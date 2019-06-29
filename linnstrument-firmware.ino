@@ -1435,7 +1435,7 @@ inline void modeLoopPerformance() {
       canShortCircuit = handleXYZupdate();                                       // handle any X, Y or Z movements
     }
     else if (previousTouch != untouchedCell && !sensorCell->isActiveTouch() &&   // if not touched now but touched before, it's been released
-             calcTimeDelta(millis(), sensorCell->lastTouch) > 70 ) {             // only release if it's later than 70ms after the touch to debounce some note starts
+             calcTimeDelta(millis(), sensorCell->lastTouch) > 35 ) {             // only release if it's later than 70ms after the touch to debounce some note starts
       handleTouchRelease();
     }
 
