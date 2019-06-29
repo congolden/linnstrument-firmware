@@ -159,7 +159,7 @@ const short READZ_DELAY_CONTROLMODE = 50;
 const short READZ_DELAY_SWITCH = 24;
 const short READZ_DELAY_SENSOR = 15;
 const short READZ_DELAY_SENSORINITIAL = 14;
-const short READZ_SETTLING_PRESSURE_THRESHOLD = 80;
+const short READZ_SETTLING_PRESSURE_THRESHOLD = 80;   // is this where note on messages come from?
 
 inline short readAdcZ(byte col, byte row) {           // returns the ADC Z value for a particular column and row
   selectSensorCell(col, row, READ_Z);                 // set analog switches to current cell in touch sensor and read Z
