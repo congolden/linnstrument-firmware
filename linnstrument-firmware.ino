@@ -133,8 +133,8 @@ byte NUMROWS = 8;                    // number of touch sensor rows
 
 // Values related to the Z sensor, continuous pressure
 #define DEFAULT_SENSOR_SENSITIVITY_Z  75       // by default the sensor Z sensitivity is unchanged, ie. 75%
-#define DEFAULT_SENSOR_LO_Z           120      // lowest acceptable raw Z value to start a touch
-#define DEFAULT_SENSOR_FEATHER_Z      80       // lowest acceptable raw Z value to continue a touch
+#define DEFAULT_SENSOR_LO_Z           100      // lowest acceptable raw Z value to start a touch (120)
+#define DEFAULT_SENSOR_FEATHER_Z      70       // lowest acceptable raw Z value to continue a touch (80)
 #define DEFAULT_SENSOR_RANGE_Z        648      // default range of the pressure
 #define MAX_SENSOR_RANGE_Z            1016     // upper value of the pressure                          
 
@@ -1435,7 +1435,7 @@ inline void modeLoopPerformance() {
       canShortCircuit = handleXYZupdate();                                       // handle any X, Y or Z movements
     }
     else if (previousTouch != untouchedCell && !sensorCell->isActiveTouch() &&   // if not touched now but touched before, it's been released
-             calcTimeDelta(millis(), sensorCell->lastTouch) > 35 ) {             // only release if it's later than 70ms after the touch to debounce some note starts
+             calcTimeDelta(millis(), sensorCell->lastTouch) > 30 ) {             // only release if it's later than 70ms after the touch to debounce some note starts
       handleTouchRelease();
     }
 
