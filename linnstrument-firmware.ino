@@ -133,8 +133,8 @@ byte NUMROWS = 8;                    // number of touch sensor rows
 
 // Values related to the Z sensor, continuous pressure
 #define DEFAULT_SENSOR_SENSITIVITY_Z  75       // by default the sensor Z sensitivity is unchanged, ie. 75%
-#define DEFAULT_SENSOR_LO_Z           100      // lowest acceptable raw Z value to start a touch (120)
-#define DEFAULT_SENSOR_FEATHER_Z      70       // lowest acceptable raw Z value to continue a touch (80)
+#define DEFAULT_SENSOR_LO_Z           80      // lowest acceptable raw Z value to start a touch (120)
+#define DEFAULT_SENSOR_FEATHER_Z      60      // lowest acceptable raw Z value to continue a touch (80)
 #define DEFAULT_SENSOR_RANGE_Z        648      // default range of the pressure
 #define MAX_SENSOR_RANGE_Z            1016     // upper value of the pressure                          
 
