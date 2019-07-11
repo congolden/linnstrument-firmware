@@ -484,7 +484,7 @@ void initializePresetSettings() {
 
     g.rowOffset = 5;
     g.customRowOffset = 12;
-    g.velocitySensitivity = velocityMedium;
+    g.velocitySensitivity = velocityLow;
     g.minForVelocity = DEFAULT_MIN_VELOCITY;
     g.maxForVelocity = DEFAULT_MAX_VELOCITY;
     g.valueForFixedVelocity = DEFAULT_FIXED_VELOCITY;
@@ -493,10 +493,10 @@ void initializePresetSettings() {
     g.midiIO = 1;      // set to 1 for USB jacks (not MIDI jacks)
 
     // initialize switch settings
-    g.switchAssignment[SWITCH_FOOT_L] = ASSIGNED_ARPEGGIATOR;
+    g.switchAssignment[SWITCH_FOOT_L] = ASSIGNED_SUSTAIN;
     g.switchAssignment[SWITCH_FOOT_R] = ASSIGNED_SUSTAIN;
-    g.switchAssignment[SWITCH_SWITCH_1] = ASSIGNED_SUSTAIN;
-    g.switchAssignment[SWITCH_SWITCH_2] = ASSIGNED_ARPEGGIATOR;
+    g.switchAssignment[SWITCH_SWITCH_1] = ASSIGNED_OCTAVE_UP;
+    g.switchAssignment[SWITCH_SWITCH_2] = ASSIGNED_OCTAVE_DOWN;
     g.switchAssignment[SWITCH_FOOT_B] = ASSIGNED_DISABLED;
 
     g.switchBothSplits[SWITCH_FOOT_L] = false;
@@ -594,8 +594,8 @@ void initializePresetSettings() {
       p.split[LEFT].midiChanSet[chan] = false;
     }
     p.split[LEFT].midiChanPerRow = 1;
-    p.split[LEFT].colorMain = COLOR_GREEN;
-    p.split[LEFT].colorPlayed = COLOR_RED;
+    p.split[LEFT].colorMain = COLOR_CYAN;
+    p.split[LEFT].colorPlayed = COLOR_MAGENTA;
     p.split[LEFT].lowRowMode = lowRowNormal;
     p.split[LEFT].sequencerView = sequencerScales;
 
