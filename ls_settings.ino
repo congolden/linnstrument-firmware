@@ -609,7 +609,7 @@ void initializePresetSettings() {
     }
     p.split[RIGHT].midiChanSet[15] = false;
     p.split[RIGHT].midiChanPerRow = 9;
-    p.split[RIGHT].colorMain = COLOR_BLUE;
+    p.split[RIGHT].colorMain = COLOR_CYAN;
     p.split[RIGHT].colorPlayed = COLOR_MAGENTA;
     p.split[RIGHT].lowRowMode = lowRowNormal;
     p.split[RIGHT].sequencerView = sequencerScales;

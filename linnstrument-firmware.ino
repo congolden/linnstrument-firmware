@@ -973,7 +973,7 @@ boolean firstTimeBoot = false;                      // this will be true when th
 boolean globalReset = false;                        // this will be true when the LinnStrument was just globally reset
 unsigned long lastReset;                            // the last time a reset was started
 
-byte globalColor = COLOR_BLUE;                      // color for global, split point and transpose settings
+byte globalColor = COLOR_MAGENTA;                   // color for global, split point and transpose settings
 byte globalAltColor = COLOR_CYAN;                   // alternate color for global, split point and transpose settings
 byte globalLowRowColor = COLOR_GREEN;               // color for low row painting in global settings
 
