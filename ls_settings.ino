@@ -2201,7 +2201,7 @@ void handleSensorSensitivityBiasRelease() {
 }
 
 void handleSensorLoZNewTouch() {
-  handleNumericDataNewTouchCol(Device.sensorLoZ, max(100, Device.sensorFeatherZ), 1024, false);
+  handleNumericDataNewTouchCol(Device.sensorLoZ, max(30, Device.sensorFeatherZ), 1024, false);
 }
 
 void handleSensorLoZRelease() {
@@ -2209,7 +2209,7 @@ void handleSensorLoZRelease() {
 }
 
 void handleSensorFeatherZNewTouch() {
-  handleNumericDataNewTouchCol(Device.sensorFeatherZ, 65, min(1024, Device.sensorLoZ), false);
+  handleNumericDataNewTouchCol(Device.sensorFeatherZ, 20, min(1024, Device.sensorLoZ), false);
 }
 
 void handleSensorFeatherZRelease() {
