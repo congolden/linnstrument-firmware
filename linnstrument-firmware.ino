@@ -955,11 +955,12 @@ const int32_t FXD_CONST_255 = FXD_FROM_INT(255);
 const int32_t FXD_CONST_1016 = FXD_FROM_INT(1016);
 
 const int CALX_VALUE_MARGIN = 85;                         // 4095 / 48
-const int32_t CALX_HALF_UNIT = FXD_MAKE(85.3125);         // 4095 / 48
-const int32_t CALX_PHANTOM_RANGE = FXD_MAKE(128);         // 4095 / 32
-const int32_t CALX_FULL_UNIT = FXD_MAKE(170.625);         // 4095 / 24
+const int32_t FXD_CALX_HALF_UNIT = FXD_MAKE(85.3125);     // 4095 / 48
+const int32_t FXD_CALX_PHANTOM_RANGE = FXD_MAKE(128);     // 4095 / 32
+const int32_t FXD_CALX_FULL_UNIT = FXD_MAKE(170.625);     // 4095 / 24
+const int32_t CALX_QUARTER_UNIT = FXD_TO_INT(FXD_CALX_FULL_UNIT) / 4;
 
-const int32_t CALY_FULL_UNIT = FXD_FROM_INT(127);    // range of 7-bit CC
+const int32_t FXD_CALY_FULL_UNIT = FXD_FROM_INT(127);     // range of 7-bit CC
 
 
 /*************************************** OTHER RUNTIME STATE *************************************/
@@ -973,7 +974,9 @@ boolean firstTimeBoot = false;                      // this will be true when th
 boolean globalReset = false;                        // this will be true when the LinnStrument was just globally reset
 unsigned long lastReset;                            // the last time a reset was started
 
-byte globalColor = COLOR_MAGENTA;                   // color for global, split point and transpose settings
+short lastReadSensorRawZ = 0;                       // the last pressure value that was read straight off of the sensor without any sensor bias nor sensitivity calibration
+
+byte globalColor = COLOR_BLUE;                      // color for global, split point and transpose settings
 byte globalAltColor = COLOR_CYAN;                   // alternate color for global, split point and transpose settings
 byte globalLowRowColor = COLOR_GREEN;               // color for low row painting in global settings
 
@@ -1061,10 +1064,6 @@ byte guitarTuningRowNum = 0;                        // active row number for con
 short guitarTuningPreviewNote = -1;                 // active note that is previewing the guitar tuning pitch
 short guitarTuningPreviewChannel = -1;              // active channel that is previewing the guitar tuning pitch
 
-byte sensorSensZHoriz = 0;                          // active horizontal configuration point for Z sensitivity
-byte sensorSensZVert = 0;                           // active vertical configuration point for Z sensitivity
-
-
 /************************* FUNCTION DECLARATIONS TO WORK AROUND COMPILER *************************/
 
 inline void selectSensorCell(byte col, byte row, byte switchCode);
@@ -1086,6 +1085,7 @@ void cellTouched(byte col, byte row, TouchState state);
 VelocityState calcVelocity(unsigned short z);
 
 inline unsigned short readZ();
+inline short applyRawZBias(short rawZ);
 inline unsigned short calculateSensorRangeZ();
 inline unsigned short calculatePreferredPressureRange(unsigned short sensorRangeZ);
 
@@ -1434,9 +1434,18 @@ inline void modeLoopPerformance() {
     else if (previousTouch == touchedCell && sensorCell->isActiveTouch()) {      // if touched now and touched before
       canShortCircuit = handleXYZupdate();                                       // handle any X, Y or Z movements
     }
-    else if (previousTouch != untouchedCell && !sensorCell->isActiveTouch() &&   // if not touched now but touched before, it's been released
-             calcTimeDelta(millis(), sensorCell->lastTouch) > 30 ) {             // only release if it's later than 70ms after the touch to debounce some note starts
-      handleTouchRelease();
+    else if (previousTouch != untouchedCell && !sensorCell->isActiveTouch()) {   // if not touched now but touched before, it's been released
+      if (sensorCell->initialX != SHRT_MIN &&                                    // check if there was movement on the cell
+          abs(sensorCell->initialX - sensorCell->currentCalibratedX) > CALX_QUARTER_UNIT) {
+        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 70 ) {              // only release if it's later than 70ms after the touch to debounce some note starts
+          handleTouchRelease();
+        }
+      }
+      else {                                                                     // this release happened on a mostly stationary touch, reduce the debounce time
+        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 35 ) {              // only release if it's later than 35ms after the touch to debounce some note starts
+          handleTouchRelease();
+        }
+      }
     }
 
     if (canShortCircuit) {
@@ -1460,11 +1469,11 @@ inline void modeLoopPerformance() {
   }
 
 #ifdef DEBUG_ENABLED
-  if (SWITCH_XFRAME) displayXFrame();                            // Display the X value of all cells in grid at the end of each total surface scan
-  if (SWITCH_YFRAME) displayYFrame();                            // Display the Y value of all cells in grid at the end of each total surface scan
-  if (SWITCH_ZFRAME) displayZFrame();                            // Display the pressure value of all cells in grid at the end of each total surface scan
-  if (SWITCH_SURFACESCAN) displaySurfaceScanTime();              // Display the total time for a total surface scan
-  if (SWITCH_FREERAM) debugFreeRam();                            // Display the available free RAM
+  if (SWITCH_XFRAME) displayXFrame();                            // Turn on secret switch to display the X value of all cells in grid at the end of each total surface scan
+  if (SWITCH_YFRAME) displayYFrame();                            // Turn on secret switch to display the Y value of all cells in grid at the end of each total surface scan
+  if (SWITCH_ZFRAME) displayZFrame();                            // Turn on secret switch to display the pressure value of all cells in grid at the end of each total surface scan
+  if (SWITCH_SURFACESCAN) displaySurfaceScanTime();              // Turn on secret switch to display the total time for a total surface scan
+  if (SWITCH_FREERAM) debugFreeRam();                            // Turn on secret switch to display the available free RAM
 #endif
 
   nextSensorCell();                                              // done-- move on to the next sensor cell
