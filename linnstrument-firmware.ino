@@ -1064,6 +1064,10 @@ byte guitarTuningRowNum = 0;                        // active row number for con
 short guitarTuningPreviewNote = -1;                 // active note that is previewing the guitar tuning pitch
 short guitarTuningPreviewChannel = -1;              // active channel that is previewing the guitar tuning pitch
 
+byte sensorSensZHoriz = 0;                          // active horizontal configuration point for Z sensitivity
+byte sensorSensZVert = 0;                           // active vertical configuration point for Z sensitivity
+
+
 /************************* FUNCTION DECLARATIONS TO WORK AROUND COMPILER *************************/
 
 inline void selectSensorCell(byte col, byte row, byte switchCode);
