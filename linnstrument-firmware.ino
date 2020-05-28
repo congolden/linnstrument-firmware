@@ -1441,12 +1441,12 @@ inline void modeLoopPerformance() {
     else if (previousTouch != untouchedCell && !sensorCell->isActiveTouch()) {   // if not touched now but touched before, it's been released
       if (sensorCell->initialX != SHRT_MIN &&                                    // check if there was movement on the cell
           abs(sensorCell->initialX - sensorCell->currentCalibratedX) > CALX_QUARTER_UNIT) {
-        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 70 ) {              // only release if it's later than 70ms after the touch to debounce some note starts
+        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 25 ) {              // only release if it's later than 70ms after the touch to debounce some note starts
           handleTouchRelease();
         }
       }
       else {                                                                     // this release happened on a mostly stationary touch, reduce the debounce time
-        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 35 ) {              // only release if it's later than 35ms after the touch to debounce some note starts
+        if (calcTimeDelta(millis(), sensorCell->lastTouch) > 20 ) {              // only release if it's later than 35ms after the touch to debounce some note starts
           handleTouchRelease();
         }
       }
