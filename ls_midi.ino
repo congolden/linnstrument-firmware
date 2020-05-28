@@ -324,13 +324,17 @@ void handleMidiInput(unsigned long nowMicros) {
 
       case MIDIProgramChange:
       {
-        if (split != -1) {
-          midiPreset[split] = midiData1;
-          if (displayMode == displayPreset) {
-            updateDisplay();
-          }
+        if (inRange(midiData1, 0, 5)) {
+              loadSettingsFromPreset(midiData1);
         }
         break;
+        //if (split != -1) {
+        //  midiPreset[split] = midiData1;
+        //  if (displayMode == displayPreset) {
+        //    updateDisplay();
+        //  }
+        //}
+        //break;
       }
 
       case MIDIControlChange:
@@ -1062,9 +1066,10 @@ void receivedNrpn(int parameter, int value, int channel) {
       break;
     // Global Settings Preset Load
     case 243:
-      if (inRange(value, 0, 5)) {
-        loadSettingsFromPreset(value);
-      }
+      // Connor's Custom Bitwig Set uses Program Change instead
+      //if (inRange(value, 0, 5)) {
+      //  loadSettingsFromPreset(value);
+      //}
       break;
     // Global Pressure Aftertouch Active
     case 244:

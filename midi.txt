@@ -38,6 +38,9 @@ CC Number   Used for
 22          Change the color of the cell with the provided column and row coordinates
             see color value table below, 11+: default color
 
+Connor's Custom Preset Change for Bitwig Set
+25			Global settings change
+
 NRPN input
 ==========
 
@@ -238,7 +241,7 @@ NRPN   Value   Description
 240    0-1     Global Switch 2 Both Splits (0: Off, 1: On)
 241    0-1     Global Foot Left Both Splits (0: Off, 1: On)
 242    0-1     Global Foot Right Both Splits (0: Off, 1: On)
-243    0-5     Global Settings Preset Load
+243    0-5     Global Settings Preset Load (This was bypassed and is used as cc 25 instead for Connor's Bitwig Set)
 244    0-1     Global Pressure Aftertouch (0: Off, 1: On)
 245    0-1     Device User Firmware Mode (0: Off, 1: On)
 246    0-1     Device Left Handed Operation (0: Off, 1: On)

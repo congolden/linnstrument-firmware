@@ -300,6 +300,7 @@ void loadSettingsFromPreset(byte p) {
   memcpy(&Split[RIGHT], &config.preset[p].split[RIGHT], sizeof(SplitSettings));
 
   applyPresetSettings();
+  updateDisplay();
 }
 
 void storeSettingsToPreset(byte p) {
